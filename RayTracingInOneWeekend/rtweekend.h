@@ -2,6 +2,9 @@
 #define _RTWEEKEND_H_
 
 #include <cstdlib>
+#include <limits>
+
+const double infinity = std::numeric_limits<double>::infinity();
 
 inline double random_double()
 {
@@ -19,5 +22,6 @@ inline int random_int(int min, int max)
 }
 
 #include "vec3.h"
+#include "ray.h"
 
 #endif

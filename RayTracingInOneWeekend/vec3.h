@@ -12,6 +12,9 @@ public:
 	double x() const { return e[0]; }
 	double y() const { return e[1]; }
 	double z() const { return e[2]; }
+	double r() const { return e[0]; }
+	double g() const { return e[1]; }
+	double b() const { return e[2]; }
 
 	vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); }
 	double operator[](int i) const { return e[i]; }
@@ -38,8 +41,8 @@ public:
 		return *this *= 1 / t;
 	}
 
-	double length() const { return sqrt(length_squared()); }
 	double length_squared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
+	double length() const { return sqrt(length_squared()); }
 
 	inline static vec3 random()
 	{
@@ -106,6 +109,11 @@ inline vec3 cross(const vec3& v, const vec3& u)
 inline vec3 unit_vector(vec3 v)
 {
 	return v / v.length();
+}
+
+inline vec3 lerp(const vec3& u, const vec3& v, double t)
+{
+	return (1 - t) * u + t * v;
 }
 
 #endif
