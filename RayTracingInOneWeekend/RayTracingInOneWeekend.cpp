@@ -83,6 +83,8 @@ hitable_list* random_scene()
 
 int main()
 {
+	// 是否是大场景
+//#define BIG_SCENE
 	// 一光线最大弹射次数
 	const int max_depth = 5;
 	// 一像素采样数量
@@ -91,38 +93,43 @@ int main()
 	const int image_width = 200;
 	const int image_height = 100;
 	// 相机参数
+#ifdef BIG_SCENE
 	const vec3 lookfrom(13, 2, 3);
 	const vec3 lookat(0, 0, 0);
 	const double dist_to_focus = 10.0;
 	const double aperture = 0.2;
-	// 是否是大场景
-	const bool isBigScene = false;
+	const double vfov = 20.0;
+#else
+	const vec3 lookfrom(0, 0, 0);
+	const vec3 lookat(0, 0, -1);
+	const double dist_to_focus = 1.0;
+	const double aperture = 0.2;
+	const double vfov = 90.0;
+#endif
 
-
+	
 	out_image out_file("out_image.ppm", image_width, image_height);
 
 	vec3 vup(0, 1, 0);
 	const auto aspect_ratio = double(image_width) / image_height;
-	camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+	camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus);
 
 	
 	hitable_list* scene = nullptr;
-	if (isBigScene)
-	{
-		scene = random_scene();
-	}
-	else
-	{
-		// 有多少个球
-		const size_t list_count = 5;
-		hitable* list[list_count];
-		scene = new hitable_list(list, list_count);
-		scene->add(new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5))));
-		scene->add(new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0))));
-		scene->add(new sphere(vec3(1, 0, -1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.2)));
-		scene->add(new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5)));
-		scene->add(new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5)));
-	}
+#ifdef BIG_SCENE
+	scene = random_scene();
+#else
+	// 有多少个球
+	const size_t list_count = 5;
+	hitable* list[list_count];
+	scene = new hitable_list(list, list_count);
+	scene->add(new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5))));
+	scene->add(new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0))));
+	scene->add(new sphere(vec3(1, 0, -1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.2)));
+	scene->add(new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5)));
+	scene->add(new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5)));
+#endif
+	
 
 	for (int j = image_height - 1; j >= 0; j--)
 	{
