@@ -84,17 +84,19 @@ hitable_list* random_scene()
 int main()
 {
 	// 一光线最大弹射次数
-	const int max_depth = 50;
+	const int max_depth = 5;
 	// 一像素采样数量
-	const int ns = 12;
+	const int ns = 5;
 	// 像素数量
-	const int image_width = 400;
-	const int image_height = 300;
+	const int image_width = 200;
+	const int image_height = 100;
 	// 相机参数
-	vec3 lookfrom(13, 2, 3);
-	vec3 lookat(0, 0, 0);
-	double dist_to_focus = 10.0;
-	double aperture = 0.2;
+	const vec3 lookfrom(13, 2, 3);
+	const vec3 lookat(0, 0, 0);
+	const double dist_to_focus = 10.0;
+	const double aperture = 0.2;
+	// 是否是大场景
+	const bool isBigScene = false;
 
 
 	out_image out_file("out_image.ppm", image_width, image_height);
@@ -103,16 +105,24 @@ int main()
 	const auto aspect_ratio = double(image_width) / image_height;
 	camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
-	// 有多少个球
-	//const size_t list_count = 5;
-	//hitable* list[list_count];
-	//list[0] = new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
-	//list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0)));
-	//list[2] = new sphere(vec3(1, 0, -1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.2));
-	//list[3] = new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5));
-	//list[4] = new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5));
-	//hitable* scene = new hitable_list(list, list_count);
-	hitable* scene = random_scene();
+	
+	hitable_list* scene = nullptr;
+	if (isBigScene)
+	{
+		scene = random_scene();
+	}
+	else
+	{
+		// 有多少个球
+		const size_t list_count = 5;
+		hitable* list[list_count];
+		scene = new hitable_list(list, list_count);
+		scene->add(new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5))));
+		scene->add(new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0))));
+		scene->add(new sphere(vec3(1, 0, -1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.2)));
+		scene->add(new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5)));
+		scene->add(new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5)));
+	}
 
 	for (int j = image_height - 1; j >= 0; j--)
 	{
