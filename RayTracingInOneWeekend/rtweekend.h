@@ -5,10 +5,11 @@
 #include <limits>
 
 const double infinity = std::numeric_limits<double>::infinity();
+const double pi = 3.1415926535897932385;
 
 inline double random_double()
 {
-	return rand() / (RAND_MAX + 1.0);
+	return rand() / (RAND_MAX + 1.0); // [0,1)
 }
 
 inline double random_double(double min, double max)
@@ -21,7 +22,24 @@ inline int random_int(int min, int max)
 	return static_cast<int>(random_double(min, max + 1));
 }
 
+inline double degrees_to_radians(double degrees)
+{
+	return degrees * pi / 180.0;
+}
+
+inline double ffmin(double a, double b) { return a <= b ? a : b; }
+inline double ffmax(double a, double b) { return a >= b ? a : b; }
+
+inline double clamp(double x, double min, double max)
+{
+	if (x < min) return min;
+	if (x > max) return max;
+	return x;
+}
+
 #include "vec3.h"
 #include "ray.h"
+
+
 
 #endif

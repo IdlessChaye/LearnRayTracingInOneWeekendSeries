@@ -157,6 +157,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="hitable.h" />
     <ClInclude Include="hitable_list.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="out_image.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="rtweekend.h" />

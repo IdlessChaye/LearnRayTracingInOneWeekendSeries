@@ -6,6 +6,8 @@
 class ray
 {
 public:
+	ray() :orig(vec3()), dir(vec3()), tm(0) {}
+
 	ray(const vec3& origin, const vec3& direction)
 		:orig(origin), dir(direction), tm(0)
 	{}
