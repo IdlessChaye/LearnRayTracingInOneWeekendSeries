@@ -3,10 +3,6 @@
 - Thank Peter Shirley very muck indeed for his [Ray Tracing in One Weekend Book Series][GitHub home].
 - Thanks to [Ubpa dalao][Ubpa repo home] for his C++ code.
 
-[GitHub home]:              https://github.com/RayTracing/raytracing.github.io/
-
-[Ubpa repo home]:        https://github.com/Ubpa/RayTracingInOneWeekend
-
 # 结果展示
 
 - 视角1
@@ -47,3 +43,8 @@
 ## 光源
 
 - 光源就是整片天空，如果光线没有与场景中的任何物体相交，则返回淡蓝色。
+
+
+[GitHub home]:              https://github.com/RayTracing/raytracing.github.io/
+
+[Ubpa repo home]:        https://github.com/Ubpa/RayTracingInOneWeekend
