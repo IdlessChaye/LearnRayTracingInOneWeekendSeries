@@ -11,15 +11,15 @@
 
 - 视角1
 
-![1](img/viewpoint1.png)
+![1](img/viewpoint1.jpg)
 
 - 视角2
 
-![2](img/viewpoint2.png)
+![2](img/viewpoint2.jpg)
 
 - 视角2 实现焦点模糊
 
-![2_fb](img/viewpoint2_FocusBlur.png)
+![2_fb](img/viewpoint2_FocusBlur.jpg)
 
 # 实现的功能
 
@@ -43,3 +43,7 @@
 
 - 球体
 - 正方体
+
+## 光源
+
+- 光源就是整片天空，如果光线没有与场景中的任何物体相交，则返回淡蓝色。
