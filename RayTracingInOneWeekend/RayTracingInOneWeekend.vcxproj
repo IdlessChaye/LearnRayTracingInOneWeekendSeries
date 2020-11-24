@@ -154,6 +154,7 @@
     <ClCompile Include="RayTracingInOneWeekend.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aarect.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="hitable.h" />
     <ClInclude Include="hitable_list.h" />

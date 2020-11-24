@@ -5,6 +5,7 @@
 #include "sphere.h"
 #include "hitable_list.h"
 #include "material.h"
+#include "aarect.h"
 
 
 vec3 color(const ray& r, const hitable* scene, int depth)
@@ -81,10 +82,39 @@ hitable_list* random_scene()
 	return world;
 }
 
+hitable_list* box_scene()
+{
+	const int n = 500;
+	hitable** list = new hitable * [n + 1];
+	hitable_list* world = new hitable_list(list, n);
+
+	world->add(
+		new sphere(vec3(0, -1000, 0), 999, new lambertian(vec3(0.5, 0.5, 0.5)))
+	);
+
+	int i = 1;
+	auto box_mat = new metal(vec3(0.7, 0.6, 0.5), 0.0);
+	world->add(new flip_face(new xy_rect(-1, 1, -1, 1, -1, box_mat)));
+	world->add(new xy_rect(-1, 1, -1, 1, 1, box_mat));
+	world->add(new flip_face(new yz_rect(-1, 1, -1, 1, -1, box_mat)));
+	world->add(new yz_rect(-1, 1, -1, 1, 1, box_mat));
+	world->add(new flip_face(new zx_rect(-1, 1, -1, 1, -1, box_mat)));
+	world->add(new zx_rect(-1, 1, -1, 1, 1, box_mat));
+
+	world->add(new sphere(vec3(-4, 1, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(4, 1, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(0, 1, -4), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(0, 1, 4), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(0, 4, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(4, 1, 4), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+
+	return world;
+}
+
 int main()
 {
 	// 是否是大场景
-//#define BIG_SCENE
+#define BIG_SCENE
 	// 一光线最大弹射次数
 	const int max_depth = 5;
 	// 一像素采样数量
@@ -117,7 +147,8 @@ int main()
 	
 	hitable_list* scene = nullptr;
 #ifdef BIG_SCENE
-	scene = random_scene();
+	//scene = random_scene();
+	scene = box_scene();
 #else
 	// 有多少个球
 	const size_t list_count = 5;
