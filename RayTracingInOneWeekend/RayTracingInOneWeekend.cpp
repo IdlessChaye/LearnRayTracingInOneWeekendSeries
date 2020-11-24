@@ -101,12 +101,20 @@ hitable_list* box_scene()
 	world->add(new flip_face(new zx_rect(-1, 1, -1, 1, -1, box_mat)));
 	world->add(new zx_rect(-1, 1, -1, 1, 1, box_mat));
 
-	world->add(new sphere(vec3(-4, 1, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
-	world->add(new sphere(vec3(4, 1, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
-	world->add(new sphere(vec3(0, 1, -4), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
-	world->add(new sphere(vec3(0, 1, 4), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
-	world->add(new sphere(vec3(0, 4, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
-	world->add(new sphere(vec3(4, 1, 4), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(-4, 0, 0), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(4, 0, 0), 1.0, new dielectric(1.5)));
+	world->add(new sphere(vec3(-4, 0, 2), 1.0, new lambertian(vec3(random_double(), random_double(), random_double()))));
+	world->add(new sphere(vec3(0, 2, 0), 1.0, new metal(vec3(random_double(), random_double(), random_double()),0)));
+	world->add(new sphere(vec3(8, 0, 0), 1.0, new metal(vec3(random_double(), random_double(), random_double()), 0)));
+	world->add(new sphere(vec3(0, 0, -4), 1.0, new metal(vec3(0.7, 0.8, 0.9),0)));
+
+	auto mat44 = new metal(vec3(random_double(), random_double(), random_double()), 0.1f);
+	world->add(new flip_face(new xy_rect(3, 5, -1, 1, 3, mat44)));
+	world->add(new xy_rect(3, 5, -1, 1, 5, mat44));
+	world->add(new flip_face(new yz_rect(-1, 1, 3, 5, 3, mat44)));
+	world->add(new yz_rect(-1, 1, 3, 5, 5, mat44));
+	world->add(new flip_face(new zx_rect(3, 5, 3, 5, -1, mat44)));
+	world->add(new zx_rect(3, 5, 3, 5, 1, mat44));
 
 	return world;
 }
@@ -116,18 +124,18 @@ int main()
 	// 是否是大场景
 #define BIG_SCENE
 	// 一光线最大弹射次数
-	const int max_depth = 5;
+	const int max_depth = 15;
 	// 一像素采样数量
-	const int ns = 5;
+	const int ns = 50;
 	// 像素数量
-	const int image_width = 200;
-	const int image_height = 100;
+	const int image_width = 1366;
+	const int image_height = 768;
 	// 相机参数
 #ifdef BIG_SCENE
-	const vec3 lookfrom(13, 2, 3);
+	const vec3 lookfrom(-15, 10, 15);
 	const vec3 lookat(0, 0, 0);
 	const double dist_to_focus = 10.0;
-	const double aperture = 0.2;
+	const double aperture = 0;
 	const double vfov = 20.0;
 #else
 	const vec3 lookfrom(0, 0, 0);

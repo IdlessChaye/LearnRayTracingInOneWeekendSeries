@@ -38,7 +38,7 @@ public:
 			return false;
 
 		rec.front_face = !rec.front_face;
-		rec.normal = -rec.normal;
+		//rec.normal = -rec.normal;
 		return true;
 	}
 
